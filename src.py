@@ -1,11 +1,13 @@
+import folium.elements
 import pandas as pd
 import folium
 import urllib.request, json
 import requests
 
-df = pd.read_csv('./data.csv')
+df = pd.read_csv('./datas/processed.csv')
 
 loc = [36.16260, 127.4619] #금산구 위도 경도
+colors = ['green', 'blue', 'gray', 'red', 'purple', 'pink', 'darkblue']
 
 # 맵 , 마커 생성
 m = folium.Map(location=loc, zoom_start=10)   
@@ -14,23 +16,36 @@ folium.Marker(
     location=loc,
     tooltip="금산군",
     popup="금산군",
-    icon=folium.Icon(icon="star"),
+    icon=folium.Icon(color="beige", icon="star"),
 ).add_to(m)
 
-# 금산군 오버레이
-
-
-
+# 소개 ( popup ) 짧게
+def shorten_string(input_string, limit=140):
+    if len(input_string) > limit:
+        return input_string[:limit] + '...'
+    else:
+        return input_string
+    
 # 금산군 문화재 위치 추가
 
-for i in range(len(df.index)):
+eras = list(df['시대'].unique())
+e = 0
+for i, row in df.iterrows(): #i = index int, row = 내용
+    
+    e = eras.index(row['시대']) #시대별 색상 지정 인덱싱
+    c = colors[e] #시대별 색상 지정
+    
     folium.Marker(
         location= [ df['위도'][i], df['경도'][i] ],
         tooltip = df['문화재명'][i],
-        popup= df['문화재명'][i],
-        icon=folium.Icon(icon="클라우드")
+        popup= folium.Popup(shorten_string(df['소개'][i]), parse_html=True, max_width= 150),
+        icon=folium.Icon(color=c, icon="circle")
     ).add_to(m)
+    
+legend_tag = '''
+    <div>잉잉</div>
+'''
 
-
+m.get_root().html.add_child(folium.Element(legend_tag))
 # 저장
 m.save('map.html')
