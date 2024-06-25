@@ -43,9 +43,22 @@ for i, row in df.iterrows(): #i = index int, row = 내용
     ).add_to(m)
     
 legend_tag = '''
-    <div>잉잉</div>
+    <div class="legend">
+        <div class="content">
+            <div class="bars elems">
+                <div class="bar">조선 시대</div>
+                <div class="bar">미제공</div>
+                <div class="bar">삼국 시대</div>
+                <div class="bar">고려 시대</div>
+                <div class="bar">현대</div>
+                <div class="bar">임시정부</div>
+                <div class="bar">청동기</div>
+            </div>
+        </div>
+    </div>
 '''
 
+m.get_root().header.add_child(folium.CssLink('style.css'))
 m.get_root().html.add_child(folium.Element(legend_tag))
 # 저장
 m.save('map.html')
