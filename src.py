@@ -61,4 +61,4 @@ legend_tag = '''
 m.get_root().header.add_child(folium.CssLink('style.css'))
 m.get_root().html.add_child(folium.Element(legend_tag))
 # 저장
-m.save('map.html')
+m.save('index.html')
