@@ -57,8 +57,12 @@ legend_tag = '''
         </div>
     </div>
 '''
+<<<<<<< Updated upstream
 
 m.get_root().header.add_child(folium.CssLink('style.css'))
+=======
+>>>>>>> Stashed changes
 m.get_root().html.add_child(folium.Element(legend_tag))
+m.get_root().html.add_child(folium.CssLink('./style.css'))
 # 저장
 m.save('index.html')
